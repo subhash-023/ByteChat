@@ -39,3 +39,48 @@ exports.login = async (req, res) => {
         res.status(500).json({ error: "Internal server error" })
     }
 }
+
+exports.register = async (req, res) => {
+    const {username, password, email} = req.body
+    try {
+        const existingUser = await prisma.user.findFirst({
+            where: {
+                OR: [{username}, {email}]
+            }
+        })
+
+        if(existingUser) {
+            res.json({error: "Username or email already exists!"})
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = await prisma.user.create({
+            data: {
+                username,
+                email,
+                password: hashedPassword
+        }})
+
+        const access_token = jwt.sign(
+            { id: newUser.id, username: newUser.username },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        )
+
+        res.json({ access_token })
+    } catch (error) {
+        console.error(error)
+        res.json({error: "Internal server error!"})
+    }
+}
+
+exports.logout = (req, res) => {
+    res.clearCookie('accessToken', {
+        httpOnly: true,
+        samesite: 'none',
+        secure: true,
+        path: '/'
+    });
+
+    res.json({message: "Logged out successfully!"})
+}

@@ -1,20 +1,23 @@
 require('dotenv').config()
 const express = require('express');
+const cookieParser = require("cookie-parser")
+const cors = require("cors")
 const app = express()
 const port = process.env.PORT || 3000
-const cookieParser = require("cookie-parser")
 const { authenticateToken } = require("../backend/middlewares/auth")
-const cors = require("cors")
+const authRoutes = require('./routes/auth')
 
 app.use(cookieParser())
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true })) 
 app.use(
     cors({
-      origin: 'http://localhost:5473',
+      origin: 'http://localhost:5173',
       credentials: true,
     })
   );
+
+app.use('/auth', authRoutes)
 
 app.get('/',authenticateToken, (req, res) => {
     res.json({ user: req.user })
