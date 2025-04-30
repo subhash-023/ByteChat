@@ -4,24 +4,24 @@ const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs")
 
 exports.login = async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
     try {
         const user = await prisma.user.findUnique({
             where: {
-                username: username
+                email: email
             }
         })
         if (!user) {
-            res.status(401).json({error: "Invalid Username or password"})
+            res.status(401).json({error: "Invalid email or password"})
         }
 
         const isMatch = await bcrypt.compare(password, user.password)
         if (!isMatch) {
-            res.status(401).json({error: "Incorrect username or password"})
+            res.status(401).json({error: "Incorrect email or password"})
         }
 
         const accessToken = jwt.sign(
-            { id: user.id, username: user.username },
+            { id: user.id, email: user.email },
             process.env.JWT_SECRET,
             { expiresIn: "1h" }
         )
