@@ -7,6 +7,7 @@ const Login = () => {
   const { user, login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
 
   if (user) {
@@ -18,11 +19,25 @@ const Login = () => {
       <img src={logo} alt="logo" className={styles.logo} />
       <p className={styles.welcome_text}>Welcome back!</p>
       <p className={styles.subtitle}>We're so excited to see you again!</p>
+      {errors.length > 0 && (
+        <ul className={styles.errors}>
+          {errors.map((error, index) => (
+            <li key={index}>* {error}</li>
+          ))}
+        </ul>
+      )}
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          await login(email, password);
-          navigate("/");
+          setErrors([]);
+          const errorMessage = await login(email, password);
+
+          if (errorMessage) {
+            setErrors([errorMessage]);
+          } else {
+            navigate('/');
+          }
+
         }}
         className={styles.login_form}
       >

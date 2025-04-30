@@ -1,5 +1,5 @@
-import React, { useState, useEffect, Children } from "react";
-import { AuthContext } from "./authContext";
+import React, { useState, useEffect } from 'react';
+import { AuthContext } from './authContext';
 const base_url = import.meta.env.VITE_API_BASE_URL;
 
 export const AuthProvider = ({ children }) => {
@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   const verifyToken = async () => {
     try {
       const response = await fetch(`${base_url}/auth/verify-token`, {
-        credentials: "include",
+        credentials: 'include',
       });
       if (response.ok) {
         const data = await response.json();
@@ -22,13 +22,13 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
       } else {
         console.error(
-          "Unexpected token verification failure:",
+          'Unexpected token verification failure:',
           response.status
         );
         setUser(null);
       }
     } catch (error) {
-      console.error("Unexpected token verification failure: ", error);
+      console.error('Token verification network error:', error);
       setUser(null);
     } finally {
       setLoading(false);
@@ -38,54 +38,59 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await fetch(`${base_url}/auth/login`, {
-        credentials: "include",
+        method: 'POST',
+        credentials: 'include',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
       });
       if (response.ok) {
         await verifyToken();
-      } else if (response.status === 401) {
-        throw new Error("Invalid username or password");
-      } else {
-        throw new Error("Login failed, please try again.");
+        return null;
       }
+      const errorData = await response.json();
+      return errorData.error || 'Login failed, please try again.';
     } catch (error) {
-      console.error("Login error: ", error);
-      throw error;
+      console.error('Login error:', error);
+      return 'An unexpected error occurred. Please try again.';
     }
   };
 
   const register = async (username, email, password) => {
     try {
-      await fetch(`${base_url}/auth/register`, {
-        method: "POST",
-        credentials: "include",
+      const response = await fetch(`${base_url}/auth/register`, {
+        method: 'POST',
+        credentials: 'include',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ username, email, password }),
       });
+      if (response.ok) {
+        return null;
+      }
+      const errorData = await response.json();
+      return errorData.error || 'Registration failed. Please try again.';
     } catch (error) {
       console.error(error);
-      throw error;
+      return 'An unexpected error occurred. Please try again.';
     }
   };
 
   const logout = async () => {
     try {
       const response = await fetch(`${base_url}/auth/logout`, {
-        method: "POST",
-        credentials: "include",
+        method: 'POST',
+        credentials: 'include',
       });
       if (response.ok) {
         setUser(null);
       } else {
-        console.error("Logout failed ", response.status);
+        console.error('Logout failed with status:', response.status);
       }
     } catch (error) {
-      console.error("Logout error", error);
+      console.error('Logout error:', error);
     }
   };
 

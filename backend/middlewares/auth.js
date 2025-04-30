@@ -22,7 +22,6 @@ exports.authenticateToken = async (req, res) => {
                     username: true,
                     email: true,
                     avatar: true,
-                    bio: true,
                 },
             })
             req.user = user;
