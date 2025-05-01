@@ -1,0 +1,32 @@
+.settings_cont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 3rem;
+    color: var(--blue-gray);
+}
+
+.welcome_text {
+    font-size: 1.8rem;
+}
+
+.logout_button {
+    margin-top: 2rem;
+    background-color: var(--chili-red);
+    padding: 1rem 1rem;
+    border-radius: 0.4rem;
+    color: var(--dark-blue);
+    font-family: 'Akira';
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s all;
+}
+
+.logout_button:hover {
+    transform: scale(1.1);
+}
+
+.logout_button:active {
+    transform: scale(0.9);
+}

@@ -10,20 +10,26 @@ const Home = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
-      if (!user) {
-        navigate("/sign-in");
-      }
-    });
+    if (!user) {
+      navigate("/sign-in");
+    }
+  });
   return (
     <section className={styles.home_cont}>
       <div className={styles.open_menu_cont}>
         <FontAwesomeIcon icon={faArrowRight} />
       </div>
-      <FontAwesomeIcon icon={faGear} className={styles.settings_icon} />
+      <FontAwesomeIcon
+        onClick={() => {
+          navigate("/settings");
+        }}
+        icon={faGear}
+        className={styles.settings_icon}
+      />
       <img src={astronaut} alt="hi" className={styles.astronaut} />
       <p className={styles.empty_title}>No chat selected!</p>
       <p className={styles.empty_subtitle}>
-        Select one from the contacts menu!
+        Select one from the chats menu!
       </p>
     </section>
   );
