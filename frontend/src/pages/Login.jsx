@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../contexts/authContext";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./css/Login.module.css";
@@ -10,10 +10,13 @@ const Login = () => {
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
 
-  if (user) {
-    navigate("/");
-    return;
-  }
+  useEffect(() => {
+    console.log("User changed:", user);
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
+  
   return (
     <section className={styles.login_cont}>
       <img src={logo} alt="logo" className={styles.logo} />

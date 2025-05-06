@@ -2,9 +2,9 @@ const jwt = require("jsonwebtoken")
 const prisma = require("../config/prismaConfig")
 require("dotenv").config()
 
-exports.authenticateToken = async (req, res) => {
-    const token = req.cookies.access_token
-
+exports.authenticateToken = async (req, res, next) => {
+    const token = req.cookies.accessToken
+    console.log("Token received:", token);
     if(!token) {
        return res.status(401).json({ error: "Unauthorized: No token provided"})
     }
@@ -25,7 +25,8 @@ exports.authenticateToken = async (req, res) => {
                 },
             })
             req.user = user;
-            next()
+            console.log("Authenticated user:", user);
+            next();
         } catch (error) {
             console.error("Error during auth", error)
             res.status(500).json({error: "Internal Server Error"})

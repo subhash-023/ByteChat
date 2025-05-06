@@ -10,6 +10,11 @@ export const AuthProvider = ({ children }) => {
     verifyToken();
   }, []);
 
+  useEffect(() => {
+    console.log("User:", user);
+    console.log("Loading:", loading);
+  }, [user, loading]);
+
   const verifyToken = async () => {
     try {
       const response = await fetch(`${base_url}/auth/verify-token`, {
@@ -17,6 +22,7 @@ export const AuthProvider = ({ children }) => {
       });
       if (response.ok) {
         const data = await response.json();
+        console.log("Verified user:", data);
         setUser(data);
       } else if ([401, 403, 404].includes(response.status)) {
         setUser(null);

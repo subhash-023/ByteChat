@@ -12,12 +12,12 @@ exports.login = async (req, res) => {
             }
         })
         if (!user) {
-            res.status(401).json({error: "Invalid email or password"})
+            res.status(401).json({ error: "Invalid email or password" })
         }
 
         const isMatch = await bcrypt.compare(password, user.password)
         if (!isMatch) {
-            res.status(401).json({error: "Incorrect email or password"})
+            res.status(401).json({ error: "Incorrect email or password" })
         }
 
         const accessToken = jwt.sign(
@@ -26,13 +26,15 @@ exports.login = async (req, res) => {
             { expiresIn: "1h" }
         )
 
+        const isProd = process.env.NODE_ENV === 'production';
+
         res.cookie('accessToken', accessToken, {
             httpOnly: true,
-            samesite: 'none',
-            secure: true,
+            sameSite: isProd ? 'None' : 'Lax',
+            secure: isProd,
             maxAge: 3600000,
             path: '/'
-        })
+        });
         res.json({ message: "Login Successful" })
     } catch (error) {
         console.error(error)
@@ -41,16 +43,16 @@ exports.login = async (req, res) => {
 }
 
 exports.register = async (req, res) => {
-    const {username, password, email} = req.body
+    const { username, password, email } = req.body
     try {
         const existingUser = await prisma.user.findFirst({
             where: {
-                OR: [{username}, {email}]
+                OR: [{ username }, { email }]
             }
         })
 
-        if(existingUser) {
-            res.json({error: "Username or email already exists!"})
+        if (existingUser) {
+            res.json({ error: "Username or email already exists!" })
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -59,7 +61,8 @@ exports.register = async (req, res) => {
                 username,
                 email,
                 password: hashedPassword
-        }})
+            }
+        })
 
         const access_token = jwt.sign(
             { id: newUser.id, username: newUser.username },
@@ -70,7 +73,7 @@ exports.register = async (req, res) => {
         res.json({ access_token })
     } catch (error) {
         console.error(error)
-        res.json({error: "Internal server error!"})
+        res.json({ error: "Internal server error!" })
     }
 }
 
@@ -82,5 +85,5 @@ exports.logout = (req, res) => {
         path: '/'
     });
 
-    res.json({message: "Logged out successfully!"})
+    res.json({ message: "Logged out successfully!" })
 }
