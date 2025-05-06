@@ -36,7 +36,7 @@ exports.getChats = async (req, res) => {
 exports.sendMessage = async (req, res) => {
     const { text, senderId, chatId } = req.body;
 
-    if (!text || senderId || !chatId) {
+    if (!text || !senderId || !chatId) {
         return res.status(400).json({ error: 'Text, senderId and chatId are required' });
     }
     try {
