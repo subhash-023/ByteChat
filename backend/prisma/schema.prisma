@@ -21,6 +21,7 @@ model Chat {
   id      String  @id @unique @default(uuid())
   isGroup Boolean @default(false)
   name    String?
+  updatedAt DateTime @updatedAt @default(now())
 
   participants ChatParticipant[]
   messages     Message[]

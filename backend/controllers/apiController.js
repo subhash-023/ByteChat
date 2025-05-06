@@ -20,10 +20,10 @@ exports.getChats = async (req, res) => {
                     },
                 },
                 messages: {
-                    orderBy: { createdAt: 'desc' },
+                    orderBy: { createdAt: 'asc' },
                 },
             },
-            orderBy: { messages: { _count: 'desc' } },
+            orderBy: { updatedAt: 'desc' },
         });
         console.log("Chats:", chats)
         res.json(chats);
