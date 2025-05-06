@@ -64,13 +64,13 @@ exports.register = async (req, res) => {
             }
         })
 
-        const access_token = jwt.sign(
+        const accessToken = jwt.sign(
             { id: newUser.id, username: newUser.username },
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
         )
 
-        res.json({ access_token })
+        res.json({ accessToken })
     } catch (error) {
         console.error(error)
         res.json({ error: "Internal server error!" })
