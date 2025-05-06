@@ -15,7 +15,9 @@ const Settings = () => {
           navigate("/sign-in");
         }}
         className={styles.logout_button}
-      ></button>
+      >
+        Log out
+      </button>
     </section>
   );
 };
