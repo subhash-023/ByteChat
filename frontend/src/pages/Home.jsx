@@ -35,7 +35,7 @@ const Home = () => {
       if (!user?.id) return;
       try {
         const chatsData = await getChats(user.id);
-
+        console.log("Chats data: ",chatsData);
         const chatsFormatted = chatsData.map((chat) => ({
           id: chat.id,
           name: chat.name,
@@ -45,6 +45,7 @@ const Home = () => {
           ),
           messages: chat.messages,
         }));
+        console.log("Formatted chats: ",chatsFormatted);
         setChats(chatsFormatted);
       } catch (error) {
         console.error("Failed to fetch chats:", error);
