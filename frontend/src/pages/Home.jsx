@@ -101,6 +101,7 @@ const Home = () => {
         ) : (
           <span className={styles.empty_subtitle}>No chats Available</span>
         )}
+        <button className={styles.add_btn}>+</button>
       </ul>
       <FontAwesomeIcon
         onClick={() => {
