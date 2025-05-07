@@ -53,3 +53,58 @@ exports.sendMessage = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' })
     }
 }
+
+exports.createNewChat = async (req, res) => {
+    const { userId, recipient } = req.body;
+    if (!userId || !recipient) {
+        console.log("User and recipient details are required.")
+        return res.status(400).json({ error: "User's ID, and recipient's ID is required." });
+    }
+    try {
+        const recipientUser = await prisma.user.findUnique({
+            where: { username: recipient },
+        });
+        if (!recipientUser) {
+            console.log("User exists: ", recipientUser)
+            return res.status(400).json({ error: `User '${recipient}' does not exist.` });
+        }
+        const chatExists = await prisma.chat.findFirst({
+            where: {
+                isGroup: false,
+                participants: {
+                    every: {
+                        userId: { in: [userId, recipientUser.id] },
+                    },
+                },
+            },
+            include: {
+                participants: true,
+            },
+        });
+
+        if (chatExists && chatExists.participants.length === 2) {
+            console.log('chatExists: ', chatExists)
+            return res.status(200).json({ message: 'Chat already exists.', chat: chatExists });
+        }
+
+        const newChat = await prisma.chat.create({
+            data: {
+                isGroup: false,
+                participants: {
+                    create: [
+                        { user: { connect: { id: userId }}},
+                        { user: { connect: { id: recipientUser.id }}},
+                    ],
+                },
+            },
+            include: {
+                participants: true,
+            },
+        });
+        res.status(201).json({ message: 'Chat created.', chat: newChat})
+        console.log('newChat',newChat)
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error.' });
+    }
+};

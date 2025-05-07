@@ -10,9 +10,11 @@ import {
   faUser,
   faUserGroup,
   faPaperPlane,
+  faPlus,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import astronaut from "../assets/astronaut.png";
-import { getChats, sendMessage } from "../api/chats";
+import { getChats, sendMessage, createChat } from "../api/chats";
 import ChatLabel from "../components/ChatLabel";
 import Message from '../components/Message';
 
@@ -23,6 +25,9 @@ const Home = () => {
   const [selectedChat, setSelectedChat] = useState(null);
   const [activeChatIndex, setActiveChatIndex] = useState(null);
   const [newMsg, setNewMsg] = useState('');
+  const [addMenuOpen, setAddMenuOpen] = useState(false);
+  const [addingUsername, setAddingUsername] = useState('');
+  const [addError, setAddError] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
     if (!user) {
@@ -101,7 +106,17 @@ const Home = () => {
         ) : (
           <span className={styles.empty_subtitle}>No chats Available</span>
         )}
-        <button className={styles.add_btn}>+</button>
+        {!addMenuOpen && (
+          <button
+          onClick={() => {
+            setAddMenuOpen(true);
+            setMobileMenuOpen(false);
+          }}
+          className={styles.add_btn}
+        >
+            <FontAwesomeIcon icon={faPlus} />
+          </button>
+        )}
       </ul>
       <FontAwesomeIcon
         onClick={() => {
@@ -111,6 +126,45 @@ const Home = () => {
         className={styles.settings_icon}
       />
       <div className={styles.chat_cont}>
+      {addMenuOpen && (
+          <>
+            <div className={styles.overlay}></div>
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const newChat = await createChat(user.id, addingUsername);
+                if (newChat) {
+                  console.error('Error', newChat);
+                  setAddError(newChat);
+                } else {
+                  setAddMenuOpen(false);
+                  setAddingUsername('');
+                  window.location.reload();
+                }
+              }}
+              className={styles.add_menu}
+            >
+              <FontAwesomeIcon
+                className={styles.exit_add_menu}
+                icon={faXmark}
+                onClick={() => setAddMenuOpen(false)}
+              />
+              <span className={styles.error}>{addError}</span>
+              <div className={styles.add_field}>
+                <label htmlFor="name">Enter user's name:</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={addingUsername}
+                  onChange={(e) => setAddingUsername(e.target.value)}
+                />
+              </div>
+              {/* <FontAwesomeIcon className={styles.add_user} icon={faUserPlus} /> */}
+              <button>Create chat</button>
+            </form>
+          </>
+        )}
       {!selectedChat ? (
           <>
             <img src={astronaut} alt="hi" className={styles.astronaut} />

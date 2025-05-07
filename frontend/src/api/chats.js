@@ -37,3 +37,26 @@ export const sendMessage = async (text, senderId, chatId) => {
         throw error;
     }
 }
+
+export const createChat = async (userId, recipient) => {
+    try {
+        const response = await fetch(`${base_url}/api/chats/new`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ userId, recipient }),
+        });
+        const data = await response.json();
+
+        if (response.ok) {
+            return data;
+        } else {
+            return data.error;
+        }
+    } catch (error) {
+        console.error('Error creating chat', error);
+        throw error;
+    }
+}
