@@ -16,7 +16,7 @@ const Login = () => {
       navigate("/");
     }
   }, [user, navigate]);
-  
+
   return (
     <section className={styles.login_cont}>
       <img src={logo} alt="logo" className={styles.logo} />
@@ -33,14 +33,15 @@ const Login = () => {
         onSubmit={async (e) => {
           e.preventDefault();
           setErrors([]);
+          console.log("Attempting login...");
           const errorMessage = await login(email, password);
+          console.log("Login finished:", errorMessage);
 
           if (errorMessage) {
             setErrors([errorMessage]);
           } else {
-            navigate('/');
+            navigate("/");
           }
-
         }}
         className={styles.login_form}
       >
