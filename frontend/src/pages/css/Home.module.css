@@ -149,6 +149,7 @@
   transform: scale(1.1);
   box-shadow: 0px 1px 8px var(--sky-pulse);
 }
+
 .send_message_cont button:active {
   transform: scale(0.9);
 }
@@ -306,6 +307,7 @@
     padding: 0;
     width: 100%;
   }
+
   .mobile_menu {
     transform: translate(0) !important;
     width: 24.4rem;

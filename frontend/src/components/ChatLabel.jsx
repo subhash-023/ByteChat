@@ -1,6 +1,10 @@
 import styles from "./css/ChatLabel.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faUserGroup, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUser,
+  faUserGroup,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
 import { deleteChat } from "../api/chats";
 
 const ChatLabel = ({ chat, active, handleClick, index }) => {
@@ -17,11 +21,13 @@ const ChatLabel = ({ chat, active, handleClick, index }) => {
         />
       </div>
       <p>{chat.isGroup ? chat.name : participant}</p>
-      <FontAwesomeIcon className={styles.trash} icon={faTrashCan} 
-      onClick={async () => {
-        await deleteChat(chat.id);
-        window.location.reload();
-      }}
+      <FontAwesomeIcon
+        className={styles.trash}
+        icon={faTrashCan}
+        onClick={async () => {
+          await deleteChat(chat.id);
+          window.location.reload();
+        }}
       />
     </li>
   );

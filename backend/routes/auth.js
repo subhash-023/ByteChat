@@ -7,7 +7,7 @@ const { authenticateToken } = require('../middlewares/auth');
 router.post('/login', controller.login);
 router.post('/register', controller.register);
 router.post('/logout', controller.logout)
-router.get('/verify-token', authenticateToken,async (req, res) => {
+router.get('/verify-token', authenticateToken, async (req, res) => {
     await new Promise((resolve) => setTimeout(resolve, 100))
     res.json(req.user)
 })

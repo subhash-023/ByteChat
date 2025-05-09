@@ -16,7 +16,7 @@ import {
 import astronaut from "../assets/astronaut.png";
 import { getChats, sendMessage, createChat } from "../api/chats";
 import ChatLabel from "../components/ChatLabel";
-import Message from '../components/Message';
+import Message from "../components/Message";
 
 const Home = () => {
   const { user } = useAuth();
@@ -24,9 +24,9 @@ const Home = () => {
   const [chats, setChats] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
   const [activeChatIndex, setActiveChatIndex] = useState(null);
-  const [newMsg, setNewMsg] = useState('');
+  const [newMsg, setNewMsg] = useState("");
   const [addMenuOpen, setAddMenuOpen] = useState(false);
-  const [addingUsername, setAddingUsername] = useState('');
+  const [addingUsername, setAddingUsername] = useState("");
   const [addError, setAddError] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
@@ -40,7 +40,7 @@ const Home = () => {
       if (!user?.id) return;
       try {
         const chatsData = await getChats(user.id);
-        console.log("Chats data: ",chatsData);
+        console.log("Chats data: ", chatsData);
         const chatsFormatted = chatsData.map((chat) => ({
           id: chat.id,
           name: chat.name,
@@ -50,7 +50,7 @@ const Home = () => {
           ),
           messages: chat.messages,
         }));
-        console.log("Formatted chats: ",chatsFormatted);
+        console.log("Formatted chats: ", chatsFormatted);
         setChats(chatsFormatted);
       } catch (error) {
         console.error("Failed to fetch chats:", error);
@@ -67,15 +67,15 @@ const Home = () => {
   const handleMessageSend = async () => {
     try {
       const newMessage = await sendMessage(newMsg, user.id, selectedChat.id);
-      if(newMessage) {
+      if (newMessage) {
         setSelectedChat((prevChat) => ({
           ...prevChat,
           messages: [...prevChat.messages, newMessage],
         }));
-      };
+      }
     } catch (error) {
-      console.error('Error sending message:', error)
-    };
+      console.error("Error sending message:", error);
+    }
   };
 
   return (
@@ -108,12 +108,12 @@ const Home = () => {
         )}
         {!addMenuOpen && (
           <button
-          onClick={() => {
-            setAddMenuOpen(true);
-            setMobileMenuOpen(false);
-          }}
-          className={styles.add_btn}
-        >
+            onClick={() => {
+              setAddMenuOpen(true);
+              setMobileMenuOpen(false);
+            }}
+            className={styles.add_btn}
+          >
             <FontAwesomeIcon icon={faPlus} />
           </button>
         )}
@@ -126,7 +126,7 @@ const Home = () => {
         className={styles.settings_icon}
       />
       <div className={styles.chat_cont}>
-      {addMenuOpen && (
+        {addMenuOpen && (
           <>
             <div className={styles.overlay}></div>
             <form
@@ -134,11 +134,11 @@ const Home = () => {
                 e.preventDefault();
                 const newChat = await createChat(user.id, addingUsername);
                 if (newChat) {
-                  console.error('Error', newChat);
+                  console.error("Error", newChat);
                   setAddError(newChat);
                 } else {
                   setAddMenuOpen(false);
-                  setAddingUsername('');
+                  setAddingUsername("");
                   window.location.reload();
                 }
               }}
@@ -165,7 +165,7 @@ const Home = () => {
             </form>
           </>
         )}
-      {!selectedChat ? (
+        {!selectedChat ? (
           <>
             <img src={astronaut} alt="hi" className={styles.astronaut} />
             <p className={styles.empty_title}>No chat selected!</p>
@@ -201,7 +201,7 @@ const Home = () => {
               onSubmit={async (e) => {
                 e.preventDefault();
                 await handleMessageSend();
-                setNewMsg('');
+                setNewMsg("");
               }}
               className={styles.send_message_cont}
             >

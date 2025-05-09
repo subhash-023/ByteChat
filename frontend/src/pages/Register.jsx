@@ -36,7 +36,7 @@ const Register = () => {
           if (errorMessage) {
             setErrors([errorMessage]);
           } else {
-            navigate('/sign-in');
+            navigate("/sign-in");
           }
         }}
         className={styles.login_form}

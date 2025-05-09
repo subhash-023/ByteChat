@@ -1,27 +1,27 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-    id       String            @id @default(uuid())
-    email    String            @unique
-    username String            @unique
-    password String
-    avatar   String?
-    chats ChatParticipant[]
-    messages Message[]
+  id       String            @id @default(uuid())
+  email    String            @unique
+  username String            @unique
+  password String
+  avatar   String?
+  chats    ChatParticipant[]
+  messages Message[]
 }
 
 model Chat {
-  id      String  @id @unique @default(uuid())
-  isGroup Boolean @default(false)
-  name    String?
-  updatedAt DateTime @updatedAt @default(now())
+  id        String   @id @unique @default(uuid())
+  isGroup   Boolean  @default(false)
+  name      String?
+  updatedAt DateTime @default(now()) @updatedAt
 
   participants ChatParticipant[]
   messages     Message[]

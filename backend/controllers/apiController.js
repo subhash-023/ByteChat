@@ -92,8 +92,8 @@ exports.createNewChat = async (req, res) => {
                 isGroup: false,
                 participants: {
                     create: [
-                        { user: { connect: { id: userId }}},
-                        { user: { connect: { id: recipientUser.id }}},
+                        { user: { connect: { id: userId } } },
+                        { user: { connect: { id: recipientUser.id } } },
                     ],
                 },
             },
@@ -101,8 +101,8 @@ exports.createNewChat = async (req, res) => {
                 participants: true,
             },
         });
-        res.status(201).json({ message: 'Chat created.', chat: newChat})
-        console.log('newChat',newChat)
+        res.status(201).json({ message: 'Chat created.', chat: newChat })
+        console.log('newChat', newChat)
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal server error.' });

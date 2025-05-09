@@ -51,19 +51,19 @@ export const createChat = async (userId, recipient) => {
         const data = await response.json();
 
         if (response.status === 201) {
-      // Successfully created the chat
-      return data;
-    }
+            // Successfully created the chat
+            return data;
+        }
 
-    if (response.status === 409) {
-      return data.message;
-    }
+        if (response.status === 409) {
+            return data.message;
+        }
 
-    if (!response.ok) {
-      return data.error;
-    }
+        if (!response.ok) {
+            return data.error;
+        }
 
-    return null;
+        return null;
     } catch (error) {
         console.error('Error creating chat', error);
         throw error;
