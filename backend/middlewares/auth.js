@@ -4,7 +4,6 @@ require("dotenv").config()
 
 exports.authenticateToken = async (req, res, next) => {
     const token = req.cookies.accessToken
-    console.log("Token received:", token);
     if (!token) {
         return res.status(401).json({ error: "Unauthorized: No token provided" })
     }
@@ -25,7 +24,6 @@ exports.authenticateToken = async (req, res, next) => {
                 },
             })
             req.user = user;
-            console.log("Authenticated user:", user);
             next();
         } catch (error) {
             console.error("Error during auth", error)

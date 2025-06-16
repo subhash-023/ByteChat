@@ -25,7 +25,6 @@ exports.getChats = async (req, res) => {
             },
             orderBy: { updatedAt: 'desc' },
         });
-        console.log("Chats:", chats)
         res.json(chats);
     } catch (error) {
         console.error('error')
@@ -57,7 +56,6 @@ exports.sendMessage = async (req, res) => {
 exports.createNewChat = async (req, res) => {
     const { userId, recipient } = req.body;
     if (!userId || !recipient) {
-        console.log("User and recipient details are required.")
         return res.status(400).json({ error: "User's ID, and recipient's ID is required." });
     }
     try {
@@ -65,7 +63,6 @@ exports.createNewChat = async (req, res) => {
             where: { username: recipient },
         });
         if (!recipientUser) {
-            console.log("User exists: ", recipientUser)
             return res.status(400).json({ error: `User '${recipient}' does not exist.` });
         }
         const chatExists = await prisma.chat.findFirst({
@@ -83,7 +80,6 @@ exports.createNewChat = async (req, res) => {
         });
 
         if (chatExists && chatExists.participants.length === 2) {
-            console.log('chatExists: ', chatExists)
             return res.status(200).json({ message: 'Chat already exists.', chat: chatExists });
         }
 
@@ -102,7 +98,6 @@ exports.createNewChat = async (req, res) => {
             },
         });
         res.status(201).json({ message: 'Chat created.', chat: newChat })
-        console.log('newChat', newChat)
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal server error.' });
