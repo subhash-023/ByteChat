@@ -26,9 +26,10 @@ A full-stack messaging web application where users can sign up and exchange mess
     * **JSON Web Tokens (JWT)**: For securing API endpoints.
 
 * **Frontend**
-    **React**: JavaScript library for building user interfaces.
 
-    **React Router**: For client-side routing.
+    * **React**: JavaScript library for building user interfaces.
+
+    * **React Router**: For client-side routing.
 
 ## API Endpoints
 
