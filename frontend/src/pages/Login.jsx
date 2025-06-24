@@ -19,7 +19,6 @@ const Login = () => {
 
   return (
     <section className={styles.login_cont}>
-      <img src={logo} alt="logo" className={styles.logo} />
       <p className={styles.welcome_text}>Welcome back!</p>
       <p className={styles.subtitle}>We're so excited to see you again!</p>
       {errors.length > 0 && (

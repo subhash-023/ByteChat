@@ -1,8 +1,7 @@
 # ByteChat - Messaging App
 A full-stack messaging web application where users can sign up and exchange messages with other users. This project is built as part of [The Odin Project's](https://www.theodinproject.com/lessons/nodejs-messaging-app) NodeJS curriculum.
 
-## **Live Demo** : 
-
+**Live Demo** : 
 https://bytechat-app.netlify.app/
 
 ## **Features**
@@ -12,6 +11,12 @@ https://bytechat-app.netlify.app/
 * **One-to-One Messaging**: Users can find and send direct messages to other registered users.
 
 ## **Tech Stack**
+
+* **Frontend**
+
+    * **React**: JavaScript library for building user interfaces.
+
+    * **React Router**: For client-side routing.
 
 * **Backend**
 
@@ -27,11 +32,6 @@ https://bytechat-app.netlify.app/
 
     * **JSON Web Tokens (JWT)**: For securing API endpoints.
 
-* **Frontend**
-
-    * **React**: JavaScript library for building user interfaces.
-
-    * **React Router**: For client-side routing.
 
 ## API Endpoints
 

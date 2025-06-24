@@ -18,7 +18,6 @@ const Register = () => {
   }
   return (
     <section className={styles.login_cont}>
-      <img src={logo} alt="logo" className={styles.logo} />
       <p className={styles.welcome_text}>Welcome!</p>
       <p className={styles.subtitle}>We're so excited to have you here!</p>
       {errors.length > 0 && (
