@@ -28,8 +28,6 @@ https://bytechat-app.netlify.app/ (The site may take 2-3 mins to load for the fi
 
     * **Prisma**: ORM for PostgreSQL and Node.js.
 
-    * **Passport.js**: Authentication middleware for Node.js.
-
     * **JSON Web Tokens (JWT)**: For securing API endpoints.
 
 
