@@ -1,8 +1,6 @@
 # ByteChat - Messaging App
 A full-stack messaging web application where users can sign up and exchange messages with other users. This project is built as part of [The Odin Project's](https://www.theodinproject.com/lessons/nodejs-messaging-app) NodeJS curriculum.
 
-**Live Demo** : 
-https://bytechat-app.netlify.app/ (The site may take 2-3 mins to load for the first time. Since the server is deployed on the free tier plan, the server goes to sleep state if it doesn't receive any API calls for 15 minutes)
 
 ## **Features**
 
